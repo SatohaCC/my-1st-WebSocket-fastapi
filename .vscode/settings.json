@@ -4,12 +4,13 @@
         "--disable=C0114,C0116,C0103"
     ],
     "cSpell.words": [
+        "ASGI",
+        "asyncio",
+        "fastapi",
         "mypy",
         "onsubmit",
-        "uvicorn",
-        "fastapi",
-        "websocket",
         "starlette",
-        "ASGI"
+        "uvicorn",
+        "websocket"
     ]
 }
