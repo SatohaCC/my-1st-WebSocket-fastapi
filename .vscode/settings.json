@@ -1,0 +1,15 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+    "pylint.args": [
+        "--disable=C0114,C0116,C0103"
+    ],
+    "cSpell.words": [
+        "mypy",
+        "onsubmit",
+        "uvicorn",
+        "fastapi",
+        "websocket",
+        "starlette",
+        "ASGI"
+    ]
+}
