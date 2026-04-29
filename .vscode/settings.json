@@ -5,11 +5,12 @@
     ],
     "cSpell.words": [
         "aiter",
-        "hasattr",
         "anext",
         "ASGI",
         "asyncio",
         "fastapi",
+        "hasattr",
+        "httponly",
         "mypy",
         "onsubmit",
         "starlette",

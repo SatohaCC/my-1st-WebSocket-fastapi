@@ -1,6 +1,7 @@
 # WebSocket Learning
 
-FastAPIのWebSocketドキュメントをなぞった学習リポジトリ。
+FastAPIのWebSocketの学習リポジトリ。
+公式チュートリアルから初めて、starletteのコードを確認しながら学習。
 
 ## 章一覧
 
@@ -12,6 +13,8 @@ FastAPIのWebSocketドキュメントをなぞった学習リポジトリ。
 | [04_ping_pong](04_ping_pong/README.md) | Ping/Pong でサイレント切断を検知 |
 | [05_iter](05_iter/README.md) | iter_text / iter_json で受信ループを簡潔に書く |
 | [06_origin](06_origin/README.md) | Origin 検証で別ドメインからの接続を拒否する |
+| [07_auth_query](07_auth_query/README.md) | クエリパラメータのトークンで認証する |
+| [08_auth_cookie](08_auth_cookie/README.md) | Cookie のトークンで認証する |
 
 ## 起動
 
@@ -33,4 +36,10 @@ poetry run uvicorn 05_iter.main:app --reload
 
 # 06_origin
 poetry run uvicorn 06_origin.main:app --reload
+
+# 07_auth_query
+poetry run uvicorn 07_auth_query.main:app --reload
+
+# 08_auth_cookie
+poetry run uvicorn 08_auth_cookie.main:app --reload
 ```
