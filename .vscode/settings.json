@@ -4,6 +4,8 @@
         "--disable=C0114,C0116,C0103"
     ],
     "cSpell.words": [
+        "aiter",
+        "anext",
         "ASGI",
         "asyncio",
         "fastapi",
