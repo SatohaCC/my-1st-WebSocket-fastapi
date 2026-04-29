@@ -5,6 +5,7 @@
     ],
     "cSpell.words": [
         "aiter",
+        "hasattr",
         "anext",
         "ASGI",
         "asyncio",
