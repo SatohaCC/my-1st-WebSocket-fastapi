@@ -69,3 +69,30 @@ function connect(event) {
     // ... WebSocket接続 ...
 }
 ```
+
+#### 明示的な退室機能
+
+ユーザーが能動的にルームを退室できるよう、`ws.close()` を呼び出す「退室」ボタンを実装しています。
+
+```javascript
+function disconnect() {
+    if (ws) {
+        ws.close();
+    }
+}
+```
+
+#### UIの状態管理
+
+接続中かどうかに応じて、ボタンや入力フォームの `disabled` 属性を切り替えています。これにより、入室中に入力内容を変更したり、未接続時にメッセージを送ろうとしたりすることを防ぎます。
+
+```javascript
+function updateUI(connected) {
+    document.getElementById("room").disabled = connected;
+    document.getElementById("username").disabled = connected;
+    document.getElementById("joinBtn").disabled = connected;
+    document.getElementById("leaveBtn").disabled = !connected;
+    document.getElementById("messageText").disabled = !connected;
+    document.getElementById("sendBtn").disabled = !connected;
+}
+```
