@@ -16,6 +16,7 @@ FastAPIのWebSocketの学習リポジトリ。
 | [07_auth_query](07_auth_query/README.md) | クエリパラメータのトークンで認証する |
 | [08_auth_cookie](08_auth_cookie/README.md) | Cookie のトークンで認証する |
 | [09_rooms](09_rooms/README.md) | ルーム単位でブロードキャストする |
+| [10_json](10_json/README.md) | receive_json / send_json で型付きメッセージを交換する |
 
 ## 起動
 
@@ -46,4 +47,7 @@ poetry run uvicorn 08_auth_cookie.main:app --reload
 
 # 09_rooms
 poetry run uvicorn 09_rooms.main:app --reload
+
+# 10_json
+poetry run uvicorn 10_json.main:app --reload
 ```
