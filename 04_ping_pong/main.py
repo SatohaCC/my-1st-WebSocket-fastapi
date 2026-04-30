@@ -101,9 +101,7 @@ async def websocket_endpoint(websocket: WebSocket):
             if data["type"] == "pong":
                 pong_event.set()
             else:
-                await websocket.send_json(
-                    {"type": "message", "message": f"Echo: {data}"}
-                )
+                await websocket.send_json({"type": "message", "message": f"Echo: {data}"})
     except WebSocketDisconnect:
         pass
     finally:
