@@ -25,7 +25,7 @@ NN_name/
     main.py     # FastAPIアプリ本体
     README.md   # 章の解説・起動コマンド・実装メモ
 Docs/
-    starlette/  # 参照用にコピーしたStarletteのソースコード
+    starlette/  # 参照用にコピーしたStarletteのソースコード。編集不可。
 ```
 
 各 `main.py` はそれ単体で完結しており、共有モジュールはない。

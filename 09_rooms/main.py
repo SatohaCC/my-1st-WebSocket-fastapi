@@ -40,7 +40,7 @@ html = """
 
             function connect(event) {
                 event.preventDefault();
-                
+
                 const room = document.getElementById("room").value;
                 const username = document.getElementById("username").value;
                 ws = new WebSocket(`ws://${window.location.host}/ws/${room}?username=${username}`);
@@ -105,8 +105,7 @@ class RoomManager:
         for connection in self.rooms.get(room, []):
             try:
                 await connection.send_text(message)
-            except Exception:
-                # 接続が切れている場合は無視（disconnectで処理されるはず）
+            except WebSocketDisconnect:
                 pass
 
 
@@ -129,5 +128,3 @@ async def websocket_endpoint(websocket: WebSocket, room: str):
     except WebSocketDisconnect:
         manager.disconnect(room, websocket)
         await manager.broadcast(room, f"[{username}] が退室しました")
-    except Exception:
-        manager.disconnect(room, websocket)
