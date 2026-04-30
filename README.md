@@ -3,7 +3,8 @@
 FastAPIのWebSocketの学習リポジトリ。
 公式チュートリアルから初めて、starletteのコードを確認しながら学習。
 
-## 章一覧
+## 章１覧
+FastAPIでフロントもバックエンドも実装
 
 | フォルダ | 内容 |
 |---------|------|
@@ -17,6 +18,15 @@ FastAPIのWebSocketの学習リポジトリ。
 | [08_auth_cookie](08_auth_cookie/README.md) | Cookie のトークンで認証する |
 | [09_rooms](09_rooms/README.md) | ルーム単位でブロードキャストする |
 | [10_json](10_json/README.md) | receive_json / send_json で型付きメッセージを交換する |
+
+
+## 章２覧
+実務に近づけるためフロントをNextjsへ変更
+
+| フォルダ | 内容 |
+|---------|------|
+| [11_nextjs](11_nextjs/README.md) | Next.js フロントエンドから別オリジンで接続する（useState 版） |
+| [12_react_patterns](12_react_patterns/README.md) | useRef / useEffect / discriminated union で堅牢にする |
 
 ## 起動
 
@@ -50,4 +60,12 @@ poetry run uvicorn 09_rooms.main:app --reload
 
 # 10_json
 poetry run uvicorn 10_json.main:app --reload
+
+# 11_nextjs（ターミナル2つ）
+poetry run uvicorn 11_nextjs.main:app --reload
+cd 11_nextjs/frontend && npm run dev
+
+# 12_react_patterns（ターミナル2つ）
+poetry run uvicorn 12_react_patterns.main:app --reload
+cd 12_react_patterns/frontend && npm run dev
 ```

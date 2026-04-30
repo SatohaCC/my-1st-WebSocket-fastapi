@@ -35,6 +35,7 @@ Docs/
 - Python 3.12、Poetry 2.x、仮想環境は `.venv/`（プロジェクト内）
 - Pylint: `C0103, C0114, C0115, C0116` を無効化（学習用コードのため）
 - Mypy: `ignore_missing_imports = true`
+- docstringは必須。
 
 ## READMEの書き方
 
