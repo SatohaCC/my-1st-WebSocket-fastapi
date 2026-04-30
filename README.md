@@ -27,6 +27,7 @@ FastAPIでフロントもバックエンドも実装
 |---------|------|
 | [11_nextjs](11_nextjs/README.md) | Next.js フロントエンドから別オリジンで接続する（useState 版） |
 | [12_react_patterns](12_react_patterns/README.md) | useRef / useEffect / discriminated union で堅牢にする |
+| [13_ping_pong](13_ping_pong/README.md) | サーバー主導の ping/pong でサイレント切断を検知する |
 
 ## 起動
 
@@ -68,4 +69,8 @@ cd 11_nextjs/frontend && npm run dev
 # 12_react_patterns（ターミナル2つ）
 poetry run uvicorn 12_react_patterns.main:app --reload
 cd 12_react_patterns/frontend && npm run dev
+
+# 13_ping_pong（ターミナル2つ）
+poetry run uvicorn 13_ping_pong.main:app --reload
+cd 13_ping_pong/frontend && npm run dev
 ```
