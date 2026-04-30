@@ -53,21 +53,10 @@ async def websocket_endpoint(websocket: WebSocket, room: str):
 
 ### フロントエンド（JavaScript）
 
-#### 接続の排他制御（1タブ1ルーム）
-
-同じタブで別のルームに入室しようとした際、古い接続を自動的に切断することで、1つのタブが複数のルームに同時に参加することを防いでいます。
+#### ルーム名をパスに、ユーザー名をクエリパラメータに
 
 ```javascript
-function connect(event) {
-    event.preventDefault();
-    
-    // 既存の接続があれば閉じる（重要！）
-    if (ws && ws.readyState !== WebSocket.CLOSED) {
-        ws.close();
-    }
-    
-    // ... WebSocket接続 ...
-}
+ws = new WebSocket(`ws://${window.location.host}/ws/${room}?username=${username}`);
 ```
 
 #### 明示的な退室機能

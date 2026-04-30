@@ -33,9 +33,6 @@ html = """
             }
 
             function updateUI(connected) {
-                document.getElementById("room").disabled = connected;
-                document.getElementById("username").disabled = connected;
-                document.getElementById("joinBtn").disabled = connected;
                 document.getElementById("leaveBtn").disabled = !connected;
                 document.getElementById("messageText").disabled = !connected;
                 document.getElementById("sendBtn").disabled = !connected;
@@ -44,11 +41,6 @@ html = """
             function connect(event) {
                 event.preventDefault();
                 
-                // 既存の接続があれば閉じる（1タブ1ルームの制限）
-                if (ws && ws.readyState !== WebSocket.CLOSED) {
-                    ws.close();
-                }
-
                 const room = document.getElementById("room").value;
                 const username = document.getElementById("username").value;
                 ws = new WebSocket(`ws://${window.location.host}/ws/${room}?username=${username}`);
