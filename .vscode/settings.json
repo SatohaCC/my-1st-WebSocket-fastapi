@@ -12,6 +12,7 @@
         "hasattr",
         "httponly",
         "mypy",
+        "onclose",
         "onsubmit",
         "starlette",
         "uvicorn",

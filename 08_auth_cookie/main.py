@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket
-from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse
 
 ALLOWED_ORIGINS = {"http://localhost:8000"}
 VALID_TOKENS = {"secret-token-alice", "secret-token-bob"}

@@ -15,6 +15,7 @@ FastAPIのWebSocketの学習リポジトリ。
 | [06_origin](06_origin/README.md) | Origin 検証で別ドメインからの接続を拒否する |
 | [07_auth_query](07_auth_query/README.md) | クエリパラメータのトークンで認証する |
 | [08_auth_cookie](08_auth_cookie/README.md) | Cookie のトークンで認証する |
+| [09_rooms](09_rooms/README.md) | ルーム単位でブロードキャストする |
 
 ## 起動
 
@@ -42,4 +43,7 @@ poetry run uvicorn 07_auth_query.main:app --reload
 
 # 08_auth_cookie
 poetry run uvicorn 08_auth_cookie.main:app --reload
+
+# 09_rooms
+poetry run uvicorn 09_rooms.main:app --reload
 ```
