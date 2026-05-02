@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Header, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -118,6 +118,18 @@ async def login(req: LoginRequest):
     token = create_token(req.username)
     print(f"[login] {req.username} がログイン")
     return {"access_token": token, "token_type": "bearer"}
+
+
+@app.get("/me")
+async def me(authorization: str = Header(default="")):
+    """Authorization: Bearer <token> ヘッダーを検証し、ユーザー情報を返す。"""
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Authorization ヘッダーがありません")
+    token = authorization[len("Bearer "):]
+    username = verify_token(token)
+    if not username:
+        raise HTTPException(status_code=401, detail="無効なトークンです")
+    return {"username": username, "message": f"こんにちは, {username}!"}
 
 
 @app.websocket("/ws")

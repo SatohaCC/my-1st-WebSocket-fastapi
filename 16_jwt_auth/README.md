@@ -1,7 +1,8 @@
-# 16 JWT 認証
+# 16 JWT 認証 + WebSocket チャット
 
-14章の再接続機能に JWT 認証を追加した章。
-接続前に REST エンドポイントでログインし、取得した JWT を WebSocket 接続時のクエリパラメータで渡す。
+15_5 章（JWT 学習）に WebSocket チャットを追加した章。
+REST エンドポイント（`POST /token`、`GET /me`）は 15_5 から引き継ぎ、
+取得した JWT を WebSocket 接続時のクエリパラメータで渡してチャットに参加する。
 
 ## 起動
 
@@ -27,12 +28,13 @@ npm run dev
 
 ## 確認
 
-1. ユーザー名・パスワードを入力して「ログイン」→ JWT を取得、接続フォームに切り替わる
-2. 「接続」でチャットに参加する
-3. 別タブで別ユーザーとしてログインして会話できることを確認する
-4. 間違ったパスワードを入力するとエラーメッセージが表示される
-5. バックエンドを止めると自動再接続する（JWT は再接続時にも使い回す）
-6. 「ログアウト」で切断・トークン破棄・チャット履歴クリア
+1. ユーザー名・パスワードを入力して「ログイン」→ JWT を取得、色分け表示とペイロードデコードを確認する
+2. 「正しいトークンで GET /me」で 200、「トークンなし」で 401 を確認する
+3. 「接続」で WebSocket チャットに参加する
+4. 別タブで別ユーザーとしてログインして会話できることを確認する
+5. 間違ったパスワードを入力するとエラーメッセージが表示される
+6. バックエンドを止めると自動再接続する（JWT は再接続時にも使い回す）
+7. 「ログアウト」で切断・トークン破棄・チャット履歴クリア
 
 ---
 
@@ -86,6 +88,24 @@ async def login(req: LoginRequest):
     return {"access_token": create_token(req.username), "token_type": "bearer"}
 ```
 
+### バックエンド: 保護された REST エンドポイント（GET /me）
+
+15_5 と同じ構造。`Authorization: Bearer <token>` ヘッダーを検証し、ユーザー名を返す。
+
+```python
+@app.get("/me")
+async def me(authorization: str = Header(default="")):
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Authorization ヘッダーがありません")
+    username = verify_token(authorization[len("Bearer "):])
+    if not username:
+        raise HTTPException(status_code=401, detail="無効なトークンです")
+    return {"username": username, "message": f"こんにちは, {username}!"}
+```
+
+`verify_token` は WebSocket エンドポイントと共用するため `str | None` を返す設計にし、
+`/me` 側で `None` を検知して `HTTPException` を raise する。
+
 ### バックエンド: WebSocket 接続時の JWT 検証
 
 ```python
@@ -114,9 +134,13 @@ ws://localhost:8000/ws?token=eyJ...
 トレードオフ: クエリパラメータはサーバーのアクセスログに残りやすい。
 実務では短命な「チケットトークン」を REST で発行してそれを渡す方法も使われる。
 
-### フロントエンド: 2フェーズ UI
+### フロントエンド: UI 構成
 
-14章との最大の違いは、接続前にログインフェーズを挟む点。
+15_5 の UI（①ログイン・②JWT表示・③GET /me）に④WebSocket チャットを追加した5セクション構成。
+ログインすると JWT の色分け表示とペイロードデコードが現れ、GET /me で HTTP 認証を試してから
+WebSocket に接続できる。
+
+ログインフォームとログアウトは 15_5 と同じ2フェーズ構造を維持する。
 
 ```tsx
 {token === null ? (
@@ -138,7 +162,7 @@ ws://localhost:8000/ws?token=eyJ...
 
 ### フロントエンド: tokenRef で再接続時に JWT を参照する
 
-14章の `usernameRef`（setTimeout のクロージャ問題）と同じ理由で `tokenRef` を使う。
+15_5 の `token` state を再接続のタイマーコールバックから参照するために `tokenRef` を使う。
 
 ```tsx
 const tokenRef = useRef<string | null>(null);
@@ -152,8 +176,7 @@ function connectWithToken() {
 }
 ```
 
-14章では `usernameRef` を使って `connectWithUsername(usernameRef.current)` を呼んでいたが、
-ch16 では JWT がユーザー名を内包しているため `usernameRef` は不要になった。
+JWT がユーザー名を内包しているため、`usernameRef` は不要になった。`tokenRef` 1本で済む。
 
 ### フロントエンド: ログアウト処理
 

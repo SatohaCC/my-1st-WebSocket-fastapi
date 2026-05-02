@@ -15,6 +15,7 @@
         "onclose",
         "onsubmit",
         "starlette",
+        "timedelta",
         "uvicorn",
         "websocket"
     ]
