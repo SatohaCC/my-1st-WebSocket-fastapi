@@ -9,6 +9,8 @@
         "ASGI",
         "asynccontextmanager",
         "asyncio",
+        "asyncpg",
+        "configmap",
         "fastapi",
         "hasattr",
         "httponly",
