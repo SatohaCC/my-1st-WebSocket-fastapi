@@ -1,84 +1,116 @@
 # 20 データベース永続化 (PostgreSQL)
 
-本章では、Docker を使用して PostgreSQL データベースを導入し、チャットメッセージを永続化（保存）する機能を実装しました。
-メモリ上の管理からデータベース管理へ移行することで、サーバーを再起動しても過去のチャット履歴が保持されます。
-フロントは前章と全く同じです。
-今回はいったんDBから取得した履歴もWebSocketで送信しています。
+Docker で PostgreSQL を立ち上げ、チャットメッセージを DB に永続化する章。
+サーバーを再起動してもメッセージ履歴が保持され、接続時に直近 50 件を自動配信する。
 
-## 本章のハイライト
+## 起動
 
-### 1. Docker Compose によるデータベース構築
+ターミナルを 3 つ開く。
 
-- **PostgreSQL 16**: 公式イメージを使用し、`docker-compose.yml` でワンコマンドでの環境構築を実現。
-- **データ永続化**: Docker ボリュームを使用して、コンテナを削除してもデータが消えないように設定。
+```bash
+# ターミナル1: DB（20_db_persistence ディレクトリで実行）
+docker compose up -d
 
-### 2. SQLAlchemy による非同期 DB 操作
+# ターミナル2: バックエンド（20_db_persistence/backend ディレクトリで実行）
+poetry run uvicorn app.main:app --reload
 
-- **非同期 ORM**: `sqlalchemy.ext.asyncio` を使用し、WebSocket の非同期ループをブロックせずに DB 操作を実行。
-- **自動テーブル初期化**: FastAPI の `lifespan` 機能を使い、アプリ起動時に必要なテーブルが自動的に作成される仕組みを導入。
+# ターミナル3: フロントエンド（20_db_persistence/frontend ディレクトリで実行）
+npm run dev
+```
 
-### 3. Pydantic Settings によるプロフェッショナルな設定管理
+初回起動時、バックエンドが `messages` テーブルを自動で作成する。
 
-- **`.env` 連携**: 設定値を環境変数および `.env` ファイルから自動ロード。
-- **型安全な設定**: 設定値の型バリデーションを行い、不正な設定での起動を防止。
+ブラウザで http://localhost:3000 を開く。
 
-### 4. チャット履歴の自動配信
+動作確認用ユーザー（`core/config.py` の `USERS` に定義）:
 
-- **接続時ロード**: ユーザーが WebSocket に接続した際、DB から直近 50 件のメッセージを取得して自動送信。
-- **リアルタイム保存**: メッセージを受信するたびに DB へ保存し、即座に全員へ配信。
+| ユーザー名 | パスワード |
+|-----------|----------|
+| alice     | password1 |
+| bob       | password2 |
 
-## 19章からの変更点
+## 確認
 
-1. **データベースの導入と永続化**:
-   - 以前はメッセージはメモリ上でのみ扱われ、サーバー再起動で消失していました。本章では PostgreSQL を導入し、メッセージを物理ディスクに保存するようにしました。
-2. **SQLAlchemy (Async) の採用**:
-   - 非同期 ORM を使用することで、WebSocket の高速な入出力をブロックすることなく、バックグラウンドで DB 操作を実行可能にしました。
-3. **チャット履歴の自動取得機能**:
-   - ユーザーが接続した際、DB から直近のメッセージ履歴を自動的に読み込んで送信するロジックを `websockets/endpoint.py` に追加しました。
-4. **設定管理のプロフェッショナル化**:
-   - `pydantic-settings` を導入。DB 接続情報などの秘匿情報を `.env` ファイルで安全かつ型安全に管理する構成へ変更しました。
-5. **コンテナオーケストレーション**:
-   - `docker-compose.yml` を追加し、DB 環境をワンコマンドで構築・破棄できる開発ワークフローを実現しました。
+### 永続化の確認
+
+1. alice でログインしてメッセージを何件か送信する。
+2. バックエンドを `Ctrl+C` で停止し、再度起動する。
+3. bob として新しいタブで接続すると、alice のメッセージが接続直後に届く。
+
+---
 
 ## ファイル構成
 
-### バックエンド
-
 ```text
 20_db_persistence/
-    docker-compose.yml   # データベースコンテナの設定
+    docker-compose.yml   # PostgreSQL コンテナの設定
     backend/
-        .env             # 接続情報の定義
+        .env             # DATABASE_URL の上書き設定
         app/
-            main.py      # アプリ起動時の DB 初期化ロジックを追加
-            db/          # [NEW] セッション・エンジンの設定
-            models/      # [NEW] DB モデル定義 (Message)
-            crud/        # [NEW] DB 操作ロジック (create, get)
+            main.py          # lifespan でのテーブル初期化
+            db/
+                session.py   # エンジンと get_db 依存関数
+            models/
+                message.py   # Message ORM モデル
+            crud/
+                message.py   # create_message / get_recent_messages
             core/
-                config.py # Pydantic Settings による設定管理
+                config.py    # pydantic-settings による設定管理
 ```
 
-## 起動方法
+## 実装の解説
 
-### 1. データベースの起動
+### 1. lifespan によるテーブル初期化
 
-```bash
-# 20_db_persistence ディレクトリで実行
-docker compose up -d
+```python
+# main.py
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+    await engine.dispose()
 ```
 
-### 2. バックエンドの起動
+`create_all` は既存テーブルをスキップするため冪等（何度起動しても安全）。
+`yield` の前が起動処理、後が終了処理で、`engine.dispose()` で接続プールを解放する。
 
-```bash
-# 20_db_persistence/backend ディレクトリで実行
-poetry run uvicorn app.main:app --reload
+### 2. get_db による DB セッションの依存注入
+
+```python
+# db/session.py
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
 ```
 
-※ 初回起動時にテーブルが自動で作成されます。
+`async with` により、エンドポイントが終了するとセッションが自動で閉じられる。
+`Depends(get_db)` で WebSocket エンドポイントも REST API と同じパターンで DB を受け取る。
 
-### 3. フロントエンドの起動
+### 3. 接続時のメッセージ履歴配信
 
-```bash
-# 20_db_persistence/frontend ディレクトリで実行
-npm run dev
+```python
+# websockets/endpoint.py
+history = await get_recent_messages(db)
+for h in history:
+    await websocket.send_json(
+        {"type": "message", "username": h.username, "text": h.text, "is_history": True}
+    )
 ```
+
+`is_history: True` を付与することで、フロントエンドが新着メッセージと過去履歴を区別できる。
+
+### 4. 履歴の取得順序
+
+```python
+# crud/message.py
+result = await db.execute(
+    select(Message).order_by(Message.created_at.desc()).limit(limit)
+)
+messages = list(result.scalars().all())
+messages.reverse()
+return messages
+```
+
+`DESC + LIMIT` で最新 50 件を取得し、Python 側で `reverse()` して古い順に戻す。
+`ASC + LIMIT` にすると最も古い 50 件を取ってしまい「直近 50 件」にならないため、この二段階方式を使う。
