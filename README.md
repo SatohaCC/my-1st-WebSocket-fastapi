@@ -32,6 +32,9 @@ FastAPIでフロントもバックエンドも実装
 | [15_channels](15_channels/README.md) | 1本の接続で複数チャネルを購読する（アプリケーションレベル多重化） |
 | [15_5_jwt](15_5_jwt/README.md) | JWT の仕組みを REST API のみで学ぶ（WebSocket なし） |
 | [16_jwt_auth](16_jwt_auth/README.md) | REST でログインして JWT を取得し、WebSocket 接続時に渡して認証する |
+| [17_exception_handling](17_exception_handling/README.md) | Pylint (W0718) 対応と送受信エラーの適切な捕捉 |
+| [18_zombie_fix](18_zombie_fix/README.md) | ハートビート失敗時の即時切断によるゾンビ接続の完全排除 |
+| [19_refactoring](19_refactoring/README.md) | **実務レベルのリファクタリング**: Pydantic, Depends, Hooks, コンポーネント分割 |
 
 ## 起動
 
@@ -93,4 +96,16 @@ cd 15_5_jwt/frontend && npm run dev
 # 16_jwt_auth（ターミナル2つ）
 poetry run uvicorn 16_jwt_auth.main:app --reload
 cd 16_jwt_auth/frontend && npm run dev
+
+# 17_exception_handling（ターミナル2つ）
+poetry run uvicorn 17_exception_handling.main:app --reload
+cd 17_exception_handling/frontend && npm run dev
+
+# 18_zombie_fix（ターミナル2つ）
+poetry run uvicorn 18_zombie_fix.main:app --reload
+cd 18_zombie_fix/frontend && npm run dev
+
+# 19_refactoring（ターミナル2つ）
+poetry run uvicorn 19_refactoring.backend.app.main:app --reload
+cd 19_refactoring/frontend && npm run dev
 ```
