@@ -5,10 +5,12 @@ from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):
-    pass
+    """SQLAlchemy の宣言的基底クラス。"""
 
 
 class Message(Base):
+    """チャットメッセージを保存する DB テーブル。"""
+
     __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, index=True)

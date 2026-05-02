@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """アプリケーション設定。環境変数および .env ファイルから自動ロードされる。"""
+
     ALLOWED_ORIGIN: str = "http://localhost:3000"
     PING_INTERVAL: int = 10
     PONG_TIMEOUT: int = 5
