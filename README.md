@@ -30,6 +30,8 @@ FastAPIでフロントもバックエンドも実装
 | [13_ping_pong](13_ping_pong/README.md) | サーバー主導の ping/pong でサイレント切断を検知する |
 | [14_reconnect](14_reconnect/README.md) | Exponential Backoff で自動再接続する |
 | [15_channels](15_channels/README.md) | 1本の接続で複数チャネルを購読する（アプリケーションレベル多重化） |
+| [15_5_jwt](15_5_jwt/README.md) | JWT の仕組みを REST API のみで学ぶ（WebSocket なし） |
+| [16_jwt_auth](16_jwt_auth/README.md) | REST でログインして JWT を取得し、WebSocket 接続時に渡して認証する |
 
 ## 起動
 
@@ -83,4 +85,12 @@ cd 14_reconnect/frontend && npm run dev
 # 15_channels（ターミナル2つ）
 poetry run uvicorn 15_channels.main:app --reload
 cd 15_channels/frontend && npm run dev
+
+# 15_5_jwt（ターミナル2つ）
+poetry run uvicorn 15_5_jwt.main:app --reload
+cd 15_5_jwt/frontend && npm run dev
+
+# 16_jwt_auth（ターミナル2つ）
+poetry run uvicorn 16_jwt_auth.main:app --reload
+cd 16_jwt_auth/frontend && npm run dev
 ```
