@@ -29,6 +29,7 @@ FastAPIでフロントもバックエンドも実装
 | [12_react_patterns](12_react_patterns/README.md) | useRef / useEffect / discriminated union で堅牢にする |
 | [13_ping_pong](13_ping_pong/README.md) | サーバー主導の ping/pong でサイレント切断を検知する |
 | [14_reconnect](14_reconnect/README.md) | Exponential Backoff で自動再接続する |
+| [15_channels](15_channels/README.md) | 1本の接続で複数チャネルを購読する（アプリケーションレベル多重化） |
 
 ## 起動
 
@@ -78,4 +79,8 @@ cd 13_ping_pong/frontend && npm run dev
 # 14_reconnect（ターミナル2つ）
 poetry run uvicorn 14_reconnect.main:app --reload
 cd 14_reconnect/frontend && npm run dev
+
+# 15_channels（ターミナル2つ）
+poetry run uvicorn 15_channels.main:app --reload
+cd 15_channels/frontend && npm run dev
 ```
