@@ -3,7 +3,7 @@
 FastAPIのWebSocketの学習リポジトリ。
 公式チュートリアルから初めて、starletteのコードを確認しながら学習。
 
-## 章１覧
+## 1st step
 FastAPIでフロントもバックエンドも実装
 
 | フォルダ | 内容 |
@@ -20,7 +20,7 @@ FastAPIでフロントもバックエンドも実装
 | [10_json](10_json/README.md) | receive_json / send_json で型付きメッセージを交換する |
 
 
-## 章２覧
+## 2nd step
 実務に近づけるためフロントをNextjsへ変更
 
 | フォルダ | 内容 |
@@ -34,78 +34,5 @@ FastAPIでフロントもバックエンドも実装
 | [16_jwt_auth](16_jwt_auth/README.md) | REST でログインして JWT を取得し、WebSocket 接続時に渡して認証する |
 | [17_exception_handling](17_exception_handling/README.md) | Pylint (W0718) 対応と送受信エラーの適切な捕捉 |
 | [18_zombie_fix](18_zombie_fix/README.md) | ハートビート失敗時の即時切断によるゾンビ接続の完全排除 |
-| [19_refactoring](19_refactoring/README.md) | **実務レベルのリファクタリング**: Pydantic, Depends, Hooks, コンポーネント分割 |
-
-## 起動
-
-```bash
-# 01_echo
-poetry run uvicorn 01_echo.main:app --reload
-
-# 02_chat
-poetry run uvicorn 02_chat.main:app --reload
-
-# 03_reconnect
-poetry run uvicorn 03_reconnect.main:app --reload
-
-# 04_ping_pong
-poetry run uvicorn 04_ping_pong.main:app --reload
-
-# 05_iter
-poetry run uvicorn 05_iter.main:app --reload
-
-# 06_origin
-poetry run uvicorn 06_origin.main:app --reload
-
-# 07_auth_query
-poetry run uvicorn 07_auth_query.main:app --reload
-
-# 08_auth_cookie
-poetry run uvicorn 08_auth_cookie.main:app --reload
-
-# 09_rooms
-poetry run uvicorn 09_rooms.main:app --reload
-
-# 10_json
-poetry run uvicorn 10_json.main:app --reload
-
-# 11_nextjs（ターミナル2つ）
-poetry run uvicorn 11_nextjs.main:app --reload
-cd 11_nextjs/frontend && npm run dev
-
-# 12_react_patterns（ターミナル2つ）
-poetry run uvicorn 12_react_patterns.main:app --reload
-cd 12_react_patterns/frontend && npm run dev
-
-# 13_ping_pong（ターミナル2つ）
-poetry run uvicorn 13_ping_pong.main:app --reload
-cd 13_ping_pong/frontend && npm run dev
-
-# 14_reconnect（ターミナル2つ）
-poetry run uvicorn 14_reconnect.main:app --reload
-cd 14_reconnect/frontend && npm run dev
-
-# 15_channels（ターミナル2つ）
-poetry run uvicorn 15_channels.main:app --reload
-cd 15_channels/frontend && npm run dev
-
-# 15_5_jwt（ターミナル2つ）
-poetry run uvicorn 15_5_jwt.main:app --reload
-cd 15_5_jwt/frontend && npm run dev
-
-# 16_jwt_auth（ターミナル2つ）
-poetry run uvicorn 16_jwt_auth.main:app --reload
-cd 16_jwt_auth/frontend && npm run dev
-
-# 17_exception_handling（ターミナル2つ）
-poetry run uvicorn 17_exception_handling.main:app --reload
-cd 17_exception_handling/frontend && npm run dev
-
-# 18_zombie_fix（ターミナル2つ）
-poetry run uvicorn 18_zombie_fix.main:app --reload
-cd 18_zombie_fix/frontend && npm run dev
-
-# 19_refactoring（ターミナル2つ）
-poetry run uvicorn 19_refactoring.backend.app.main:app --reload
-cd 19_refactoring/frontend && npm run dev
-```
+| [19_refactoring](19_refactoring/README.md) | リファクタリング。 Pydantic, Depends, Hooks, コンポーネント分割 |
+| [20_db_persistence](20_db_persistence/README.md) | **データベース永続化**: Docker, PostgreSQL, SQLAlchemy |
