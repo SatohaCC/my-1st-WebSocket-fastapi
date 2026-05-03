@@ -36,3 +36,20 @@ FastAPIでフロントもバックエンドも実装
 | [18_zombie_fix](18_zombie_fix/README.md) | ハートビート失敗時の即時切断によるゾンビ接続の完全排除 |
 | [19_refactoring](19_refactoring/README.md) | リファクタリング。 Pydantic, Depends, Hooks, コンポーネント分割 |
 | [20_db_persistence](20_db_persistence/README.md) | **データベース永続化**: Docker, PostgreSQL, SQLAlchemy |
+
+## 3rd step
+本番環境に近づけるためインフラ・スケーリングを学ぶ
+
+### Kubernetes
+
+| フォルダ | 内容 |
+|---------|------|
+| [21_k8s](21_k8s/README.md) | Kubernetes（minikube）へのデプロイ。複数 Pod でのスケールアウト |
+
+### Redis
+
+| フォルダ | 内容 |
+|---------|------|
+| [22_pubsub](22_pubsub/README.md) | Redis Pub/Sub で複数 Pod 間のブロードキャストを実現する |
+| [23_redis_resilience](23_redis_resilience/README.md) | Redis 障害時の自動再接続（Exponential Backoff）と WebSocket 接続の維持 |
+| [24_redis_streams](24_redis_streams/README.md) | Redis Streams（XADD/XREAD）で障害中のメッセージロストを解消する |
