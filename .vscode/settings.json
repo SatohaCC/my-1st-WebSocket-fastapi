@@ -6,7 +6,6 @@
     "cSpell.words": [
         "aclose",
         "aioredis",
-        "PYTHONUNBUFFERED",
         "aiter",
         "anext",
         "ASGI",
@@ -17,14 +16,18 @@
         "fastapi",
         "hasattr",
         "httponly",
+        "MAXLEN",
         "mypy",
         "onclose",
         "onsubmit",
         "pydantic",
+        "PYTHONUNBUFFERED",
         "sessionmaker",
         "starlette",
         "timedelta",
         "uvicorn",
-        "websocket"
+        "websocket",
+        "XADD",
+        "XREAD"
     ]
 }
