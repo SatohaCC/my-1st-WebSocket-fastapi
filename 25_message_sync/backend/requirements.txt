@@ -1,0 +1,7 @@
+fastapi[standard]
+PyJWT
+sqlalchemy[asyncio]
+asyncpg
+psycopg2-binary
+pydantic-settings
+redis[asyncio]
