@@ -184,6 +184,8 @@ async def redis_subscriber() -> None:
 `publish` と `redis_subscriber` は **別々の Redis 接続**を使う。
 `pubsub.listen()` は常時待機するブロッキング処理のため、専用接続が必要。
 
+> **制約**: `redis_subscriber` に再接続ロジックはない。Redis が一時的に落ちると `pubsub.listen()` が例外を投げてタスクが終了し、以降そのPodはメッセージを受信しなくなる。復旧するには Pod の再起動が必要。
+
 ### main.py — lifespan でのタスク起動
 
 ```python
