@@ -19,7 +19,7 @@ class Settings(BaseSettings):
         "bob": "password2",
     }
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(extra="ignore")
 
 
 settings = Settings()
