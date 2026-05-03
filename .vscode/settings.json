@@ -4,6 +4,7 @@
         "--disable=C0114,C0116,C0103"
     ],
     "cSpell.words": [
+        "aioredis",
         "aiter",
         "anext",
         "ASGI",
@@ -18,6 +19,7 @@
         "onclose",
         "onsubmit",
         "pydantic",
+        "sessionmaker",
         "starlette",
         "timedelta",
         "uvicorn",
