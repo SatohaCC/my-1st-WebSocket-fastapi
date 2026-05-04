@@ -1,0 +1,9 @@
+from typing import Protocol
+
+from ..entities.message import Message
+
+
+class MessageRepository(Protocol):
+    async def save(self, username: str, text: str) -> Message: ...
+    async def get_after(self, after_id: int) -> list[Message]: ...
+    async def get_recent(self, limit: int = 50) -> list[Message]: ...
